@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Installments</h1>
+
+<div id="installments">
+  <% @installments.each do |installment| %>
+    <%= render installment %>
+    <p>
+      <%= link_to "Show this installment", installment %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New installment", new_installment_path %>

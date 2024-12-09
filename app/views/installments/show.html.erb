@@ -1,0 +1,21 @@
+<h1>Installment Details</h1>
+<p><strong>Student Name:</strong> <%= @installment.student_name %></p>
+<p><strong>Total Amount:</strong> Rs. <%= @installment.total_amount %></p>
+<p><strong>Installment Structure:</strong> <%= @installment.installment_structure.join(", ") %></p>
+
+<%= form_with url: pay_installment_installment_path(@installment), method: :post, local: true do |form| %>
+  <div>
+    <%= form.label :amount_paid, "Amount Paid" %>
+    <%= form.number_field :amount_paid, min: 0, step: 500, required: true %>
+  </div>
+  <div>
+    <%= form.label :installment_number, "Installment Number" %>
+    <%= form.number_field :installment_number, min: 1, max: @installment.num_installments, required: true %>
+  </div>
+  <div>
+    <%= form.label :action_type, "Action" %>
+    <%= form.select :action_type, [['Add to Next Installment', 'add_to_next'], ['Create New Installment', 'create_new']], required: true %>
+  </div>
+  <%= form.submit "Pay Installment" %>
+<% end %>
+

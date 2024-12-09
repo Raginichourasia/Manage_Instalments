@@ -1,0 +1,20 @@
+<%= form_with(model: installment) do |form| %>
+  <div>
+    <%= form.label :student_name, style: "display: block" %>
+    <%= form.text_field :student_name %>
+  </div>
+
+  <div>
+    <%= form.label :total_amount, style: "display: block" %>
+    <%= form.number_field :total_amount %>
+  </div>
+
+  <div>
+    <%= form.label :num_installments, style: "display: block" %>
+    <%= form.number_field :num_installments %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
