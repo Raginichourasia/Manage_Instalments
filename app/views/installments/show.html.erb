@@ -1,7 +1,7 @@
 <h1>Installment Details</h1>
 <p><strong>Student Name:</strong> <%= @installment.student_name %></p>
 <p><strong>Total Amount:</strong> Rs. <%= @installment.total_amount %></p>
-<p><strong>Installment Structure:</strong> <%= @installment.installment_structure.join(", ") %></p>
+<p><strong>Installment Structure:</strong> [<%= @installment.installment_structure.join(", ") %>]</p>
 
 <%= form_with url: pay_installment_installment_path(@installment), method: :post, local: true do |form| %>
   <div>
