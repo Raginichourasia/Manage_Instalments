@@ -11,14 +11,25 @@ module Installments
       return false unless valid_installment_structure?
 
       structure = @installment.installment_structure.dup
-      current_installment = structure[@installment_number - 1]
-
-      if @amount_paid > current_installment
-        handle_excess_payment(structure, current_installment)
-      elsif @amount_paid < current_installment
-        handle_partial_payment(structure, current_installment)
+      if @installment_number > structure.size
+        structure.push(@amount_paid)
       else
-        structure[@installment_number - 1] = @amount_paid
+        current_installment = structure[@installment_number - 1]
+
+        if @amount_paid > current_installment
+          handle_excess_payment(structure, current_installment)
+        elsif @amount_paid < current_installment
+          handle_partial_payment(structure, current_installment)
+        else
+          structure[@installment_number - 1] = @amount_paid
+        end
+      end
+
+      structure.reject! { |amount| amount == 0 }
+
+      if total_paid(structure) > @installment.total_amount
+        @installment.errors.add(:base, "Total amount paid exceeds the total installment amount.")
+        return false
       end
 
       @installment.installment_structure = structure
@@ -73,6 +84,10 @@ module Installments
       else
         structure.push(remaining_amount)
       end
+    end
+
+    def total_paid(structure)
+      structure.sum
     end
   end
 end
